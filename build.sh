@@ -26,7 +26,11 @@ for dir in [0-9][0-9]-*/; do
     flags+=("-I$name/include")
   fi
 
-  if g++ -std=c++17 -Wall -O2 "${flags[@]}" "${sources[@]}" -o "build/$name"; then
+  # 04 is a Win32 GUI program: link the graphics library and build it as a windowed app.
+  link=()
+  if [ "$name" = "04-shapes-oop" ]; then link=(-mwindows -lgdi32); fi
+
+  if g++ -std=c++17 -Wall -O2 "${flags[@]}" "${sources[@]}" -o "build/$name" "${link[@]}"; then
     echo "built  $name"
   else
     echo "FAILED $name"

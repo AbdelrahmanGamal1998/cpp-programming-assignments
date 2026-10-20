@@ -11,7 +11,7 @@ design, a simulation, text and file processing, and linked lists. Each folder is
 | 01  | [`01-prime-and-gcd-algorithms`](01-prime-and-gcd-algorithms)       | Four ways to test primality (trial division, Fermat, Miller-Rabin and a simple test) and four ways to compute the GCD |
 | 02  | [`02-sorting-algorithms`](02-sorting-algorithms)                   | Selection, bubble, insertion and merge sort, with timing to compare them                            |
 | 03  | [`03-matrix-calculator-oop`](03-matrix-calculator-oop)             | A `Matrix` class and a menu-driven matrix calculator                                                |
-| 04  | [`04-shapes-oop`](04-shapes-oop)                                   | Inheritance and polymorphism: `Shape`, `Rect`, `Square`, `Circle` and a small `ShapeGame`. **Windows only** (uses `windows.h`) |
+| 04  | [`04-shapes-oop`](04-shapes-oop)                                   | Inheritance and polymorphism: `Shape`, `Rect`, `Square`, `Circle` and a small Win32 `ShapeGame` (right-click adds a shape, drag moves it, Enter shows the area of the top shape, Delete clears). **Windows only** |
 | 05  | [`05-mouse-island-game`](05-mouse-island-game)                     | Simulation of mice moving randomly on an island grid and counting how many sink, are eaten, escape or starve. **Windows only** |
 | 06  | [`06-text-encryption-compression`](06-text-encryption-compression) | Caesar-style encryption and decryption and run-length compression of text                           |
 | 07  | [`07-file-encryption-compression`](07-file-encryption-compression) | The same operations applied to the contents of a file (`test.txt` is a sample)                      |
@@ -39,9 +39,11 @@ push.
 
 ## Notes
 
-- These are student assignments and keep their original style. The only changes made when the repository was
-  cleaned up were removing build output (`.exe`, `.o`, Code::Blocks project files) and the instructor's
-  assignment PDFs, and adding this README, a build script and CI.
+- These are student assignments and keep their original style. Changes made when the repository was cleaned up:
+  removed build output (`.exe`, `.o`, Code::Blocks project files) and the instructor's assignment PDFs, and added
+  this README, a build script and CI.
+- `04-shapes-oop` was unfinished in the original (`StartMove` and `GetArea` were declared but never written, and`n  `EndMove` deleted every shape). They are now implemented as described in the comments of `shape.h`, and the
+  `IsInside` and `Area` functions now treat `w` and `h` as half sizes, as the header says.
 - The original repositories (one ZIP each) were merged here. Their history is not part of this repository.
 
 ## License

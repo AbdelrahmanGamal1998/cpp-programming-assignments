@@ -1,5 +1,6 @@
 #include "shape.h"
-#include "cmath"
+#include <cmath>
+#include <cstdlib>
 #include<iostream>
 
 using namespace std;
@@ -139,12 +140,37 @@ void ShapeGame::DestroyShapes()
     numShapes = 0;
 }
 
+void ShapeGame::StartMove(int x, int y)
+{
+    stx = x;
+    sty = y;
+}
+
+// Move the center of the last shape containing (stx,sty) to (x,y) and make it the top-most shape.
 void ShapeGame::EndMove(int x, int y)
 {
-   stx =  x;
-   sty =  y;
-   DestroyShapes();
+    for (int i = numShapes - 1; i >= 0; i--)
+    {
+        if (shapes[i]->IsInside(stx, sty))
+        {
+            Shape* moved = shapes[i];
+            moved->MoveTo(x, y);
+            for (int j = i; j < numShapes - 1; j++)
+                shapes[j] = shapes[j + 1];
+            shapes[numShapes - 1] = moved;
+            return;
+        }
+    }
 }
+
+// Area of the last (top-most) shape, or 0 when there are no shapes.
+double ShapeGame::GetArea()
+{
+    if (numShapes == 0)
+        return 0;
+    return shapes[numShapes - 1]->Area();
+}
+
 ShapeGame::~ShapeGame()
 {
     DestroyShapes();
@@ -153,74 +179,38 @@ ShapeGame::~ShapeGame()
 /////////////////////////////////////////////////////////////
 
 
+// w and h are the half width and half height (see shape.h and Draw), so the shape spans
+// [center - w, center + w] by [center - h, center + h].
 bool Rect::IsInside(int x, int y)
 {
-    int max_x , min_x, max_y , min_y;
-
-    max_x = this->x + (w / 2);
-
-    min_x = this->x - (w / 2);
-
-    max_y = this->y + (h / 2);
-
-    min_y = this->y - (h / 2);
-
-    if( (x >= min_x && x <= max_x) &&  (y >= min_y && y <= max_y) )
-    {
-        return true;
-    }
-
-    else{
-        return false;
-        }
+    return abs(x - this->x) <= w && abs(y - this->y) <= h;
 }
 
 bool Square::IsInside(int x, int y)
 {
-    int max_x , min_x, max_y , min_y;
-
-    max_x = this->x + (w / 2);
-
-    min_x = this->x - (w / 2);
-
-    max_y = this->y + (w / 2);
-
-    min_y = this->y - (w / 2);
-
-    if( (x >= min_x && x <= max_x) &&  (y >= min_y && y <= max_y) )
-    {
-        return true;
-    }
-
-    else{
-        return false;
-        }
+    return abs(x - this->x) <= w && abs(y - this->y) <= w;
 }
 
 bool Circle::IsInside(int x, int y)
 {
-  if ((pow((x - this->x),2) + pow((y - this->y),2)) < pow(w,2))
-    return true;
-  else
-    return false;
+    double dx = x - this->x;
+    double dy = y - this->y;
+    return dx * dx + dy * dy <= (double)w * w;
 }
 
 double Rect::Area()
 {
-    return w*h;
+    return (2.0 * w) * (2.0 * h);
 }
-
 
 double Square::Area()
 {
-    return w*4;
+    return (2.0 * w) * (2.0 * w);
 }
-
-
 
 double Circle::Area()
 {
-    return 3.14 * pow(w,2);
+    return 3.14159265358979 * w * w;
 }
 
 void Rect::MoveTo(int _x, int _y)    //sets new center of shape

@@ -1,0 +1,14 @@
+ahmed hassan
+20130045
+a.hassan@hotmail.com
+programming-1: 89
+managment: 95
+Electronics: 78
+
+
+Hany Saied
+20130056
+h.saied@gmail.com
+programming-1: 96
+managment: 86
+Electronics: 81
